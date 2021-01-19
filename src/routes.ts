@@ -23,6 +23,11 @@ export const Routes = [ {
     route: "/teachers/:id",
     controller: TeacherController,
     action: "remove"
+}, {
+    method: "post",
+    route: "/teachers_login",
+    controller: TeacherController,
+    action: "login"
 },{
     method: "get",
     route: "/students",

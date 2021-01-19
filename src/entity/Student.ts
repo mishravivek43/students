@@ -13,10 +13,6 @@ export class Student {
     })
     lastname: string;
     @Column({
-        length: 50
-    })
-    grade: string;
-    @Column({
         length:40,
         unique:true
     })
@@ -25,17 +21,15 @@ export class Student {
         length:40,
     })
     password: string;
-    @Column({
-        length: 50
+    @Column({type:"text",
+    nullable:true
     })
-    division: string;
-    @Column("text")
     description: string;
-    @Column("double")
-    seat_number: number;
-    @Column("date")
-    dob: Date;
-    @Column()
+
+    @Column({
+        type:Boolean,
+        default:true
+    })
     isActive: boolean;
     @ManyToMany(type => Subject, subject => subject.students)
     @JoinTable()

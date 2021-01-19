@@ -14,9 +14,14 @@ export class Subject {
         length: 100,
         nullable:true
     })
-    @Column("text")
+    @Column({type:"text",
+    nullable:true
+    })
     description: string;
-    @Column()
+    @Column({
+        type:Boolean,
+        default:true
+    })
     isActive: boolean;
     @ManyToOne(type => Teacher, teacher => teacher.subjects, {
         cascade: true,

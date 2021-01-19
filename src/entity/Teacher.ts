@@ -24,10 +24,14 @@ export class Teacher {
     password: string;
     @OneToMany(type => Subject, subject => subject.teacher)
     subjects: Subject[];
-    @Column("text")
+    @Column({type:"text",
+    nullable:true
+    })
     description: string;
-    @Column("date")
-    dob: Date;
-    @Column()
+
+    @Column({
+        type:Boolean,
+        default:true
+    })
     isActive: boolean;
 }

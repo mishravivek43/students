@@ -7,20 +7,40 @@ export class AttandanceController {
     private attandanceRepository = getRepository(Attandance);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        return this.attandanceRepository.find();
+        if(request.session.teacher){
+            return this.attandanceRepository.find();
+        }else{
+            return {'status':0,'message':"Unauthorised access"}
+        }
+
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        return this.attandanceRepository.findOne(request.params.id);
+        if(request.session.teacher){
+            return this.attandanceRepository.findOne(request.params.id);
+        }else{
+            return {'status':0,'message':"Unauthorised access"}
+        }
+
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        return this.attandanceRepository.save(request.body);
+        if(request.session.teacher){
+           return this.attandanceRepository.save(request.body);
+        }else{
+            return {'status':0,'message':"Unauthorised access"}
+        }
+
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        let attandanceToRemove = await this.attandanceRepository.findOne(request.params.id);
-        await this.attandanceRepository.remove(attandanceToRemove);
+        if(request.session.teacher){
+            let attandanceToRemove = await this.attandanceRepository.findOne(request.params.id);
+            await this.attandanceRepository.remove(attandanceToRemove);
+        }else{
+            return {'status':0,'message':"Unauthorised access"}
+        }
+
     }
 
 }

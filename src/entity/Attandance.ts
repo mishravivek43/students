@@ -6,17 +6,8 @@ import {Student} from "./Student"
 export class Attandance {
     @PrimaryGeneratedColumn()
     id: number;
-    @Column('date')
-    date: Date;
-    @Column({
-        length:50
-    })
-    date_string: string;
-    @Column({
-        length: 100,
-        nullable:true
-    })
-    lastname: string;
+    @Column('timestamp', { nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+    created: Date;
     @ManyToOne(type => Subject)
     subjects: Subject;
     @ManyToOne(type => Student)
