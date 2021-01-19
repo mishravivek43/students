@@ -63,5 +63,10 @@ createConnection().then(async connection => {
 
 
 }).catch(error => console.log(error));
+process.on('unhandledRejection', error => {
+  // Won't execute
+  console.log('unhandledRejection', error);
+  process.exit(1);
+});
 
 

@@ -25,10 +25,14 @@ export class AttandanceController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        if(request.session.teacher){
-           return this.attandanceRepository.save(request.body);
+        if(request.session){
+            if(request.session.teacher){
+                return this.attandanceRepository.save(request.body);
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+            }
         }else{
-            return {'status':0,'message':"Unauthorised access"}
+             return {'status':0,'message':"Unauthorised access"}
         }
 
     }

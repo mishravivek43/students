@@ -7,8 +7,12 @@ export class TeacherController {
     private teacherRepository = getRepository(Teacher);
 
     async all(request: Request, response: Response, next: NextFunction) {
-        if(request.session.student || request.session.teacher){
-            return this.teacherRepository.find();
+        if(request.session){
+            if(request.session.student || request.session.teacher){
+                return this.teacherRepository.find();
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+            }
         }else{
             return {'status':0,'message':"Unauthorised access"}
         }
@@ -16,11 +20,16 @@ export class TeacherController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        if(request.session.student || request.session.teacher){
-            return this.teacherRepository.findOne(request.params.id);
+        if(request.session){
+            if(request.session.student || request.session.teacher){
+                return this.teacherRepository.findOne(request.params.id);
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+            }
         }else{
             return {'status':0,'message':"Unauthorised access"}
         }
+
 
     }
 
@@ -29,9 +38,13 @@ export class TeacherController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-         if(request.session.teacher){
-            let teacherToRemove = await this.teacherRepository.findOne(request.params.id);
-            await this.teacherRepository.remove(teacherToRemove);
+         if(request.session){
+            if(request.session.teacher){
+                let teacherToRemove = await this.teacherRepository.findOne(request.params.id);
+                await this.teacherRepository.remove(teacherToRemove);
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+            }
         }else{
             return {'status':0,'message':"Unauthorised access"}
         }

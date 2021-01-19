@@ -21,11 +21,16 @@ export class StudentController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-         if(request.session.student || request.session.teacher){
-            return this.studentRepository.findOne(request.params.id);
+        if(request.session){
+            if(request.session.student || request.session.teacher){
+                return this.studentRepository.findOne(request.params.id);
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+        }
         }else{
             return {'status':0,'message':"Unauthorised access"}
         }
+
 
     }
 
@@ -34,9 +39,13 @@ export class StudentController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        if(request.session.student || request.session.teacher){
-           let studentToRemove = await this.studentRepository.findOne(request.params.id);
-            await this.studentRepository.remove(studentToRemove);
+        if(request.session){
+            if(request.session.student || request.session.teacher){
+               let studentToRemove = await this.studentRepository.findOne(request.params.id);
+                await this.studentRepository.remove(studentToRemove);
+            }else{
+                return {'status':0,'message':"Unauthorised access"}
+        }
         }else{
             return {'status':0,'message':"Unauthorised access"}
         }
